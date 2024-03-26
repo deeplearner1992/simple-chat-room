@@ -1,14 +1,80 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+<script lang="ts">
+// import { RouterView } from 'vue-router'
+// import HelloWorld from './components/HelloWorld.vue'
 import SocketioService from './services/socketio.service.js'
 
-SocketioService.setupSocketConnection()
+const SENDER = {
+  id: '123',
+  name: 'John Doe'
+}
+
+// const messages: any[] = []
+
+// SocketioService.setupSocketConnection()
+// SocketioService.subscribeToMessages()
+// SocketioService.subscribeToMessages((err: any, data: any) => {
+//   console.log(data)
+//   this.messages.push(data)
+// })
+
+export default {
+  name: 'App',
+  components: {},
+  data() {
+    return {
+      // token: '',
+      inputMessageText: '',
+      messages: [] as any[]
+    }
+  },
+  methods: {
+    //   submitToken() {
+    //     // console.log(this.token)
+    //     SocketioService.setupSocketConnection()
+    //   }
+    // },
+
+    submitMessage() {
+      const CHAT_ROOM = 'myRandomChatRoomId'
+      const message = this.inputMessageText
+      SocketioService.sendMessage({ message, roomName: CHAT_ROOM }, (cb: any) => {
+        console.log(cb)
+        this.messages.push({
+          message,
+          ...SENDER
+        })
+        // clear the input after the message is sent
+        this.inputMessageText = ''
+      })
+      // SocketioService.subscribeToMessages((err: any, data: any) => {
+      //   console.log(data)
+      //   this.messages.push(data)
+      // })
+      // SocketioService.subscribeToMessages((err: any, data: any) => {
+      //   console.log(data)
+      //   messages.push(data)
+      // })
+      console.log(`Messages: ${this.messages}`)
+    },
+
+    beforeUnmount() {
+      SocketioService.disconnect()
+    }
+  },
+  beforeMount() {
+    console.log('Testing testing')
+    SocketioService.setupSocketConnection()
+    SocketioService.subscribeToMessages((err: any, data: any) => {
+      console.log(data)
+      this.messages.push(data)
+    })
+  }
+}
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+    <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
@@ -17,10 +83,36 @@ SocketioService.setupSocketConnection()
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>
+    </div> -->
+    <!-- <form @submit.prevent="submitToken">
+      <input type="text" placeholder="Enter token" />
+      <button type="submit">Submit</button>
+    </form> -->
+    <!-- <form @submit.prevent="start">
+      <input type="text" placeholder="Enter token" />
+      <button type="submit">Submit</button>
+    </form> -->
+    <!-- <div class="box">
+      <div class="messages"></div>
+      <form class="input-div" @submit.prevent="submitMessage">
+        <input type="text" placeholder="Type in text" v-model="inputMessageText" />
+        <button type="submit">Submit</button>
+      </form>
+    </div> -->
+
+    <div class="box">
+      <div class="messages">
+        <div v-for="user in messages" :key="user.id">{{ user.name }}: {{ user.message }}</div>
+      </div>
+      <div class="messages"></div>
+      <form class="input-div" @submit.prevent="submitMessage">
+        <input type="text" placeholder="Type in text" v-model="inputMessageText" />
+        <button type="submit">Submit</button>
+      </form>
     </div>
   </header>
 
-  <RouterView />
+  <!-- <RouterView /> -->
 </template>
 
 <style scoped>

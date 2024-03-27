@@ -67,6 +67,11 @@ io.on("connection", function (socket) {
   });
 });
 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  next();
+});
+
 app.use(bodyParser.json());
 
 app.use(
@@ -134,7 +139,7 @@ app.get("/messages", async (req, res) => {
     const data = await connection
       .promise()
       .query(
-        `SELECT message, name FROM messages LEFT JOIN users ON messages.user_id = users.id;`
+        `SELECT messages.id, name, message FROM messages LEFT JOIN users ON messages.user_id = users.id;`
       );
     res.status(202).json({
       users: data[0],

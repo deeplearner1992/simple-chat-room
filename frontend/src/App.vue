@@ -24,7 +24,8 @@ export default {
     return {
       // token: '',
       inputMessageText: '',
-      messages: [] as any[]
+      messages: [] as any[],
+      userName: ''
     }
   },
   methods: {
@@ -53,13 +54,15 @@ export default {
       SocketioService.disconnect()
     }
   },
-  beforeMount() {
+  async beforeMount() {
     console.log('Testing testing')
     SocketioService.setupSocketConnection()
     SocketioService.subscribeToMessages((err: any, data: any) => {
       console.log(data)
       this.messages.push(data)
     })
+    const fetchedMessages = await SocketioService.fetchMessage()
+    this.messages = fetchedMessages
   }
 }
 </script>

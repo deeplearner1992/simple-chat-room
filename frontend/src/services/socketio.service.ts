@@ -1,4 +1,5 @@
 import { io } from 'socket.io-client'
+import axios from 'axios';
 
 class SocketioService {
   socket: any
@@ -13,6 +14,12 @@ class SocketioService {
     this.socket.on('my broadcast', (data: any) => {
       console.log(data)
     })
+  }
+
+  async fetchMessage() {
+    const messages = (await axios(`http://localhost:8080/messages`)).data.users
+    console.log('Message: ', messages)
+    return messages;
   }
 
   disconnect() {

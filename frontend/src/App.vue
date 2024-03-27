@@ -46,14 +46,6 @@ export default {
         // clear the input after the message is sent
         this.inputMessageText = ''
       })
-      // SocketioService.subscribeToMessages((err: any, data: any) => {
-      //   console.log(data)
-      //   this.messages.push(data)
-      // })
-      // SocketioService.subscribeToMessages((err: any, data: any) => {
-      //   console.log(data)
-      //   messages.push(data)
-      // })
       console.log(`Messages: ${this.messages}`)
     },
 

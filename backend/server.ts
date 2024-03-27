@@ -4,7 +4,18 @@ import path from "path";
 import http from "http";
 import { Server as SocketIO } from "socket.io";
 import bodyParser from "body-parser";
+import mysql from "mysql2";
 // import cors from 'cors';
+
+// connecting Database
+const connection = mysql.createPool({
+  host: "localhost",
+  user: "root",
+  password: "password",
+  database: "testdb",
+});
+
+console.log(connection);
 
 const app = express();
 const server = new http.Server(app);
@@ -20,13 +31,12 @@ const io = new SocketIO(server, {
 // })
 
 io.on("connection", function (socket) {
-  socket.join('myRandomChatRoomId');
+  socket.join("myRandomChatRoomId");
   console.log(`A user connected: ${socket.id}`);
 
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
-
 
   socket.on("my message", (msg) => {
     console.log("message: " + msg);
@@ -43,8 +53,8 @@ io.on("connection", function (socket) {
 
     // generate data to send to receivers
     const outgoingMessage = {
-      name: "test",
-      id: "test",
+      name: socket.id,
+      id: socket.id,
       message,
     };
     // send socket to all in room except sender
@@ -85,6 +95,74 @@ app.post("/message", async (req: express.Request, res: express.Response) => {
   console.log(req.body);
   io.emit("receive", req.body.message);
   res.end("Hello World");
+});
+
+app.get("/users", async (req, res) => {
+  try {
+    const data = await connection.promise().query(`SELECT *  from users;`);
+    res.status(202).json({
+      users: data[0],
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: err,
+    });
+  }
+});
+
+app.post("/users", async (req, res) => {
+  try {
+    const { name, password } = req.body;
+    const insertId = await connection.promise().query(
+      `INSERT INTO users (name, password) 
+          VALUES (?, ?)`,
+      [name, password]
+    );
+    res.status(202).json({
+      message: "User Created",
+      insertId: insertId,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: err,
+    });
+  }
+});
+
+app.get("/messages", async (req, res) => {
+  try {
+    const data = await connection
+      .promise()
+      .query(
+        `SELECT message, name FROM messages LEFT JOIN users ON messages.user_id = users.id;`
+      );
+    res.status(202).json({
+      users: data[0],
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: err,
+    });
+  }
+});
+
+app.post("/messages", async (req, res) => {
+  try {
+    const { message, user_id } = req.body;
+    const insertId = await connection.promise().query(
+      `INSERT INTO messages (message, user_id) 
+          VALUES (?, ?)`,
+      [message, user_id]
+    );
+    res.status(202).json({
+      message: "Message Created",
+      insertId: insertId,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: err,
+    });
+  }
 });
 
 const PORT = 8080;

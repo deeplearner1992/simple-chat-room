@@ -48,12 +48,12 @@ io.on("connection", function (socket) {
     socket.join(roomName);
   });
 
-  socket.on("message", ({ message, roomName }, callback) => {
+  socket.on("message", ({ message, roomName, name }, callback) => {
     console.log("message: " + message + " in " + roomName);
 
     // generate data to send to receivers
     const outgoingMessage = {
-      name: socket.id,
+      name: name,
       id: socket.id,
       message,
     };
@@ -69,6 +69,9 @@ io.on("connection", function (socket) {
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+  res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
   next();
 });
 
@@ -88,19 +91,19 @@ app.get("/", function (req: express.Request, res: express.Response) {
 // Create static folders
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/send", (req: express.Request, res: express.Response) => {
-  // logic of adding apple.
-  io.emit("new-apple", "Congratulations! New Apple Created!");
-  res.json({ updated: 1 });
-});
+// app.get("/send", (req: express.Request, res: express.Response) => {
+//   // logic of adding apple.
+//   io.emit("new-apple", "Congratulations! New Apple Created!");
+//   res.json({ updated: 1 });
+// });
 
-app.post("/message", async (req: express.Request, res: express.Response) => {
-  // logic of adding apple.
-  // const { message } = req.body;
-  console.log(req.body);
-  io.emit("receive", req.body.message);
-  res.end("Hello World");
-});
+// app.post("/message", async (req: express.Request, res: express.Response) => {
+//   // logic of adding apple.
+//   // const { message } = req.body;
+//   console.log(req.body);
+//   io.emit("receive", req.body.message);
+//   res.end("Hello World");
+// });
 
 app.get("/users", async (req, res) => {
   try {

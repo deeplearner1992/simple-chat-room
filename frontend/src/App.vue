@@ -5,7 +5,12 @@ import SocketioService from './services/socketio.service.js'
 
 const SENDER = {
   id: '123',
-  name: 'John Doe'
+  name: 'John DoeBY'
+}
+
+const SENDER2 = {
+  id: '123',
+  name: 'John DoeBYdd'
 }
 
 // const messages: any[] = []
@@ -38,15 +43,18 @@ export default {
     submitMessage() {
       const CHAT_ROOM = 'myRandomChatRoomId'
       const message = this.inputMessageText
-      SocketioService.sendMessage({ message, roomName: CHAT_ROOM }, (cb: any) => {
-        console.log(cb)
-        this.messages.push({
-          message,
-          ...SENDER
-        })
-        // clear the input after the message is sent
-        this.inputMessageText = ''
-      })
+      SocketioService.sendMessage(
+        { message, roomName: CHAT_ROOM, name: SENDER2.name },
+        (cb: any) => {
+          console.log(cb)
+          this.messages.push({
+            message,
+            ...SENDER
+          })
+          // clear the input after the message is sent
+          this.inputMessageText = ''
+        }
+      )
       console.log(`Messages: ${this.messages}`)
     },
 

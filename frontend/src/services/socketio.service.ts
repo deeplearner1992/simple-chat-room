@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client'
-import axios from 'axios';
+import axios from 'axios'
 
 class SocketioService {
   socket: any
@@ -14,12 +14,16 @@ class SocketioService {
     this.socket.on('my broadcast', (data: any) => {
       console.log(data)
     })
+
+    this.socket.on('connect' , () => {
+      console.log(this.socket.id);
+    });
   }
 
   async fetchMessage() {
     const messages = (await axios(`http://localhost:8080/messages`)).data.users
     console.log('Message: ', messages)
-    return messages;
+    return messages
   }
 
   disconnect() {
@@ -36,8 +40,20 @@ class SocketioService {
     })
   }
 
-  sendMessage({ message, roomName }: { message: any; roomName: any }, cb: any) {
-    if (this.socket) this.socket.emit('message', { message, roomName }, cb)
+  async sendMessage({ message, roomName, name }: { message: any; roomName: any; name: any }, cb: any) {
+    if (this.socket) {
+      this.socket.emit('message', { message, roomName, name }, cb)
+      await axios.post(`http://localhost:8080/messages`, {
+          message: message,
+          user_id: 1
+        })
+        .then(function (response) {
+          console.log(response)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
   }
 }
 

@@ -173,6 +173,32 @@ app.post("/messages", async (req, res) => {
   }
 });
 
+app.post("/login", async (req, res) => {
+  try {
+  const { username, password } = req.body;
+  const checkUsers = await connection.promise().query(
+    `SELECT * FROM users WHERE name = "${username}" AND password = "${password}"`);
+  console.log(checkUsers)
+  const result = checkUsers[0] as any
+    if (result.length > 0) {
+    res.status(202).json({
+      username: username,
+      password: password,
+      isLoggedIn: true
+    });
+  } else {
+    res.status(400).json({
+      message: "wrong credential",
+      isLoggedIn: false
+    });
+  }
+}catch (err) {
+  res.status(500).json({
+    message: err,
+  });
+}
+});
+
 const PORT = 8080;
 
 server.listen(PORT, () => {

@@ -1,78 +1,83 @@
-<script lang="ts">
-// import { RouterView } from 'vue-router'
+<script setup lang="ts">
+import { RouterView } from 'vue-router'
+import { useIsLoggedInStore } from './stores/isLoggedIn'
+import ChatRoomView from './views/ChatRoomView.vue'
+import LoginView from './views/LoginView.vue'
+
+const store = useIsLoggedInStore();
 // import HelloWorld from './components/HelloWorld.vue'
-import SocketioService from './services/socketio.service.js'
+// import SocketioService from './services/socketio.service.js'
 
-const SENDER = {
-  id: '123',
-  name: 'John DoeBY'
-}
+// const SENDER = {
+//   id: '123',
+//   name: 'John DoeBY'
+// }
 
-const SENDER2 = {
-  id: '123',
-  name: 'John DoeBYdd'
-}
+// const SENDER2 = {
+//   id: '123',
+//   name: 'John DoeBYdd'
+// }
 
-// const messages: any[] = []
+// // const messages: any[] = []
 
-// SocketioService.setupSocketConnection()
-// SocketioService.subscribeToMessages()
-// SocketioService.subscribeToMessages((err: any, data: any) => {
-//   console.log(data)
-//   this.messages.push(data)
-// })
+// // SocketioService.setupSocketConnection()
+// // SocketioService.subscribeToMessages()
+// // SocketioService.subscribeToMessages((err: any, data: any) => {
+// //   console.log(data)
+// //   this.messages.push(data)
+// // })
 
-export default {
-  name: 'App',
-  components: {},
-  data() {
-    return {
-      // token: '',
-      inputMessageText: '',
-      messages: [] as any[],
-      userName: ''
-    }
-  },
-  methods: {
-    //   submitToken() {
-    //     // console.log(this.token)
-    //     SocketioService.setupSocketConnection()
-    //   }
-    // },
+// export default {
+//   name: 'App',
+//   components: {},
+//   data() {
+//     return {
+//       // token: '',
+//       inputMessageText: '',
+//       messages: [] as any[],
+//       userName: ''
+//     }
+//   },
+//   methods: {
+//     //   submitToken() {
+//     //     // console.log(this.token)
+//     //     SocketioService.setupSocketConnection()
+//     //   }
+//     // },
 
-    submitMessage() {
-      const CHAT_ROOM = 'myRandomChatRoomId'
-      const message = this.inputMessageText
-      SocketioService.sendMessage(
-        { message, roomName: CHAT_ROOM, name: SENDER2.name },
-        (cb: any) => {
-          console.log(cb)
-          this.messages.push({
-            message,
-            ...SENDER
-          })
-          // clear the input after the message is sent
-          this.inputMessageText = ''
-        }
-      )
-      console.log(`Messages: ${this.messages}`)
-    },
+//     submitMessage() {
+//       const CHAT_ROOM = 'myRandomChatRoomId'
+//       const message = this.inputMessageText
+//       SocketioService.sendMessage(
+//         { message, roomName: CHAT_ROOM, name: SENDER2.name },
+//         (cb: any) => {
+//           console.log(cb)
+//           this.messages.push({
+//             message,
+//             ...SENDER
+//           })
+//           // clear the input after the message is sent
+//           this.inputMessageText = ''
+//         }
+//       )
+//       console.log(`Messages: ${this.messages}`)
+//     },
 
-    beforeUnmount() {
-      SocketioService.disconnect()
-    }
-  },
-  async beforeMount() {
-    console.log('Testing testing')
-    SocketioService.setupSocketConnection()
-    SocketioService.subscribeToMessages((err: any, data: any) => {
-      console.log(data)
-      this.messages.push(data)
-    })
-    const fetchedMessages = await SocketioService.fetchMessage()
-    this.messages = fetchedMessages
-  }
-}
+//     beforeUnmount() {
+//       SocketioService.disconnect()
+//     }
+//   },
+//   async beforeMount() {
+//     console.log('Testing testing')
+//     SocketioService.setupSocketConnection()
+//     SocketioService.subscribeToMessages((err: any, data: any) => {
+//       console.log(data)
+//       this.messages.push(data)
+//     })
+//     const fetchedMessages = await SocketioService.fetchMessage()
+//     this.messages = fetchedMessages
+//   }
+// }
 </script>
 
 <template>
@@ -102,8 +107,14 @@ export default {
         <button type="submit">Submit</button>
       </form>
     </div> -->
-
-    <div class="box">
+    <!-- <h1>Welcome</h1> -->
+    <!-- <router-link to="/login"><button>Login</button></router-link>
+    <router-link to="/chatroom"><button>Chatroom</button></router-link> -->
+    <div>
+      <LoginView v-if="!store.isLoggedIn"></LoginView>
+      <ChatRoomView v-else></ChatRoomView>
+    </div>
+    <!-- <div class="box">
       <div class="messages">
         <div v-for="user in messages" :key="user.id">{{ user.name }}: {{ user.message }}</div>
       </div>
@@ -112,7 +123,7 @@ export default {
         <input type="text" placeholder="Type in text" v-model="inputMessageText" />
         <button type="submit">Submit</button>
       </form>
-    </div>
+    </div> -->
   </header>
 
   <!-- <RouterView /> -->

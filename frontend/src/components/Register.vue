@@ -1,7 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 
 <script lang="ts">
-import { useIsLoggedInStore } from '../stores/isLoggedIn'
 
 export default {
   data: () => {
@@ -13,8 +12,7 @@ export default {
   methods: {
     login(e: any) {
       e.preventDefault()
-      const store = useIsLoggedInStore();
-      fetch('http://localhost:8080/login', {
+      fetch('http://localhost:8080/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -23,22 +21,16 @@ export default {
           username: this.username,
           password: this.password
         })
-      }).then(res => res.json())
-      .then((res) => {
-        if (res.isLoggedIn) {
-          store.isLoggedIn = true;
-          store.username = res.username;
-          store.userID = res.userID;
-        } else {
-          store.isLoggedIn = false;
-          store.username = '';
+      }).then((res) => 
+      {
+        console.log("response.status =", res.status);
+        if (res.status == 401) {
+          alert("Username has been taken!")
+        } else if (res.status == 200) {
+          alert("Register success!")
         }
-        console.log(res);
-        console.log(store.username);
-      })
-
-      // console.log(store.isLoggedIn)
-      // console.log(result)
+        return res.json()
+    })
     }
     
   }
@@ -47,7 +39,7 @@ export default {
 
 <template>
   <div>
-    <h1>LOGIN</h1>
+    <h1>REGISTER</h1>
     <form @submit.prevent="login">
       <input v-model="username" placeholder="username" />
       <br />
@@ -55,7 +47,7 @@ export default {
       <input v-model="password" placeholder="password" type="password" />
       <br />
       <br />
-      <button type="submit">Login</button>
+      <button type="submit">Register</button>
     </form>
   </div>
 </template>

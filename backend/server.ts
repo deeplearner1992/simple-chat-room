@@ -71,7 +71,10 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-  res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
+  );
   next();
 });
 
@@ -175,28 +178,57 @@ app.post("/messages", async (req, res) => {
 
 app.post("/login", async (req, res) => {
   try {
-  const { username, password } = req.body;
-  const checkUsers = await connection.promise().query(
-    `SELECT * FROM users WHERE name = "${username}" AND password = "${password}"`);
-  console.log(checkUsers)
-  const result = checkUsers[0] as any
+    const { username, password } = req.body;
+    const checkUsers = await connection
+      .promise()
+      .query(
+        `SELECT * FROM users WHERE name = "${username}" AND password = "${password}"`
+      );
+    // console.log("check" , checkUsers);
+    const result = checkUsers[0] as any;
+    console.log("check" , result[0]);
     if (result.length > 0) {
-    res.status(202).json({
-      username: username,
-      password: password,
-      isLoggedIn: true
-    });
-  } else {
-    res.status(400).json({
-      message: "wrong credential",
-      isLoggedIn: false
+      res.status(202).json({
+        userID: result[0].id,
+        username: result[0].name,
+        // password: password,
+        isLoggedIn: true,
+      });
+    } else {
+      res.status(400).json({
+        message: "wrong credential",
+        isLoggedIn: false,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: err,
     });
   }
-}catch (err) {
-  res.status(500).json({
-    message: err,
-  });
-}
+});
+
+app.post("/register", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const user = await connection
+      .promise()
+      .query(/*sql*/ `SELECT * FROM users WHERE name = (?)`, [username]) as any;
+    // const result = user[0] as any;
+    console.log(password);
+    console.log(user);
+    if (user[0].length > 0) {
+      res.status(401).json({ message: "username already registered" });
+      return;
+    }
+
+    // const hashedPassword = await hashPassword(password);
+    // console.log(hashedPassword);
+    await connection.promise().query(/*sql*/`INSERT INTO users (name, password) VALUES (?, ?) `, [username, password]);
+    res.status(200).json({ message: "Register Success" });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({ message: err.message });
+  }
 });
 
 const PORT = 8080;

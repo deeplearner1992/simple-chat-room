@@ -40,12 +40,12 @@ class SocketioService {
     })
   }
 
-  async sendMessage({ message, roomName, name }: { message: any; roomName: any; name: any }, cb: any) {
+  async sendMessage({ message, roomName, name, userID }: { message: any; roomName: any; name: any; userID: any }, cb: any) {
     if (this.socket) {
-      this.socket.emit('message', { message, roomName, name }, cb)
+      this.socket.emit('message', { message, roomName, name, userID }, cb)
       await axios.post(`http://localhost:8080/messages`, {
           message: message,
-          user_id: 1
+          user_id: userID
         })
         .then(function (response) {
           console.log(response)

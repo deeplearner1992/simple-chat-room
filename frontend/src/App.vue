@@ -4,7 +4,7 @@ import { useIsLoggedInStore } from './stores/isLoggedIn'
 import ChatRoomView from './views/ChatRoomView.vue'
 import LoginView from './views/LoginView.vue'
 
-const store = useIsLoggedInStore();
+const store = useIsLoggedInStore()
 // import HelloWorld from './components/HelloWorld.vue'
 // import SocketioService from './services/socketio.service.js'
 
@@ -81,7 +81,7 @@ const store = useIsLoggedInStore();
 </script>
 
 <template>
-  <header>
+  <header class="justify-center">
     <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
@@ -163,6 +163,10 @@ nav a {
 
 nav a:first-of-type {
   border: 0;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 @media (min-width: 1024px) {

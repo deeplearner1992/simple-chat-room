@@ -5,7 +5,8 @@ export const useIsLoggedInStore = defineStore('isLoggedIn', {
   state: () => {
     return { 
       username: '',
-      isLoggedIn: false 
+      isLoggedIn: false,
+      userID: -1
     }
   },
   // could also be defined as

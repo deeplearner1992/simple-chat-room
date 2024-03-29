@@ -5,125 +5,14 @@ import ChatRoomView from './views/ChatRoomView.vue'
 import LoginView from './views/LoginView.vue'
 
 const store = useIsLoggedInStore()
-// import HelloWorld from './components/HelloWorld.vue'
-// import SocketioService from './services/socketio.service.js'
-
-// const SENDER = {
-//   id: '123',
-//   name: 'John DoeBY'
-// }
-
-// const SENDER2 = {
-//   id: '123',
-//   name: 'John DoeBYdd'
-// }
-
-// // const messages: any[] = []
-
-// // SocketioService.setupSocketConnection()
-// // SocketioService.subscribeToMessages()
-// // SocketioService.subscribeToMessages((err: any, data: any) => {
-// //   console.log(data)
-// //   this.messages.push(data)
-// // })
-
-// export default {
-//   name: 'App',
-//   components: {},
-//   data() {
-//     return {
-//       // token: '',
-//       inputMessageText: '',
-//       messages: [] as any[],
-//       userName: ''
-//     }
-//   },
-//   methods: {
-//     //   submitToken() {
-//     //     // console.log(this.token)
-//     //     SocketioService.setupSocketConnection()
-//     //   }
-//     // },
-
-//     submitMessage() {
-//       const CHAT_ROOM = 'myRandomChatRoomId'
-//       const message = this.inputMessageText
-//       SocketioService.sendMessage(
-//         { message, roomName: CHAT_ROOM, name: SENDER2.name },
-//         (cb: any) => {
-//           console.log(cb)
-//           this.messages.push({
-//             message,
-//             ...SENDER
-//           })
-//           // clear the input after the message is sent
-//           this.inputMessageText = ''
-//         }
-//       )
-//       console.log(`Messages: ${this.messages}`)
-//     },
-
-//     beforeUnmount() {
-//       SocketioService.disconnect()
-//     }
-//   },
-//   async beforeMount() {
-//     console.log('Testing testing')
-//     SocketioService.setupSocketConnection()
-//     SocketioService.subscribeToMessages((err: any, data: any) => {
-//       console.log(data)
-//       this.messages.push(data)
-//     })
-//     const fetchedMessages = await SocketioService.fetchMessage()
-//     this.messages = fetchedMessages
-//   }
-// }
 </script>
 
 <template>
   <header class="justify-center">
-    <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div> -->
-    <!-- <form @submit.prevent="submitToken">
-      <input type="text" placeholder="Enter token" />
-      <button type="submit">Submit</button>
-    </form> -->
-    <!-- <form @submit.prevent="start">
-      <input type="text" placeholder="Enter token" />
-      <button type="submit">Submit</button>
-    </form> -->
-    <!-- <div class="box">
-      <div class="messages"></div>
-      <form class="input-div" @submit.prevent="submitMessage">
-        <input type="text" placeholder="Type in text" v-model="inputMessageText" />
-        <button type="submit">Submit</button>
-      </form>
-    </div> -->
-    <!-- <h1>Welcome</h1> -->
-    <!-- <router-link to="/login"><button>Login</button></router-link>
-    <router-link to="/chatroom"><button>Chatroom</button></router-link> -->
     <div>
       <LoginView v-if="!store.isLoggedIn"></LoginView>
       <ChatRoomView v-else></ChatRoomView>
     </div>
-    <!-- <div class="box">
-      <div class="messages">
-        <div v-for="user in messages" :key="user.id">{{ user.name }}: {{ user.message }}</div>
-      </div>
-      <div class="messages"></div>
-      <form class="input-div" @submit.prevent="submitMessage">
-        <input type="text" placeholder="Type in text" v-model="inputMessageText" />
-        <button type="submit">Submit</button>
-      </form>
-    </div> -->
   </header>
 
   <!-- <RouterView /> -->

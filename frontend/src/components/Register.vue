@@ -31,6 +31,8 @@ export default {
         }
         return res.json()
     })
+    this.username = '';
+    this.password = '';
     }
     
   }

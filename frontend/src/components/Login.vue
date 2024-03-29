@@ -13,7 +13,7 @@ export default {
   methods: {
     login(e: any) {
       e.preventDefault()
-      const store = useIsLoggedInStore();
+      const store = useIsLoggedInStore()
       fetch('http://localhost:8080/login', {
         method: 'POST',
         headers: {
@@ -23,24 +23,24 @@ export default {
           username: this.username,
           password: this.password
         })
-      }).then(res => res.json())
-      .then((res) => {
-        if (res.isLoggedIn) {
-          store.isLoggedIn = true;
-          store.username = res.username;
-          store.userID = res.userID;
-        } else {
-          store.isLoggedIn = false;
-          store.username = '';
-        }
-        console.log(res);
-        console.log(store.username);
       })
-
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.isLoggedIn) {
+            store.isLoggedIn = true
+            store.username = res.username
+            store.userID = res.userID
+          } else {
+            alert('Wrong credentials!')
+            store.isLoggedIn = false
+            store.username = ''
+          }
+        })
+      this.username = '';
+      this.password = '';
       // console.log(store.isLoggedIn)
       // console.log(result)
     }
-    
   }
 }
 </script>

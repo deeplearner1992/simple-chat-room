@@ -93,7 +93,7 @@ export default {
         </div>
         <!-- <div class="messages"></div> -->
       </div>
-      <div class="inputbox">
+      <div class="input-container justify-center">
         <form class="input-div" @submit.prevent="submitMessage">
           <input
             class="width-80"
@@ -172,6 +172,21 @@ nav a:first-of-type {
   flex-direction: column-reverse;
 }
 
+.input-container {
+  /* max-width: 600px; */
+  width: 500px;
+  margin: 50px auto;
+  background-color: #fff;
+  /* border-radius: 8px; */
+  overflow-y: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+  flex-direction: column-reverse;
+}
+
+
 .message {
   padding: 10px;
   margin: 10px;
@@ -182,10 +197,6 @@ nav a:first-of-type {
   /* display: flex; */
   align-items: center;
   width: 780px;
-}
-
-.inputbox {
-  width: 500px;
 }
 
 .width-80 {

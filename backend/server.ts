@@ -5,11 +5,12 @@ import http from "http";
 import { Server as SocketIO } from "socket.io";
 import bodyParser from "body-parser";
 import mysql from "mysql2";
+import cors from "cors";
 // import cors from 'cors';
 
 // connecting Database
 const connection = mysql.createPool({
-  host: "http://18.136.222.132/",
+  host: "localhost",
   user: "root",
   password: "password",
   database: "chatroom",
@@ -21,10 +22,15 @@ const app = express();
 const server = new http.Server(app);
 const io = new SocketIO(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "*",
     methods: ["GET", "POST"],
   },
 });
+
+// All URL is allowed to access
+app.use(cors({
+  origin: '*' // Just For testing
+}));
 
 // app.get('/',function(req:Request,res:Response){
 //     res.end("Hello World");

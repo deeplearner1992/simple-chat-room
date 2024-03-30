@@ -1,6 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 
 <script lang="ts">
+// import { defineConfig } from 'vite'
 
 export default {
   data: () => {
@@ -12,7 +13,7 @@ export default {
   methods: {
     login(e: any) {
       e.preventDefault()
-      fetch('http://localhost:8080/register', {
+      fetch(`${import.meta.env.VITE_API_SERVER}/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

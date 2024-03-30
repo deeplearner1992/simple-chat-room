@@ -5,7 +5,7 @@ import http from "http";
 import { Server as SocketIO } from "socket.io";
 import bodyParser from "body-parser";
 import mysql from "mysql2";
-// import cors from "cors";
+import cors from "cors";
 // import cors from 'cors';
 
 // connecting Database
@@ -27,10 +27,10 @@ const io = new SocketIO(server, {
   },
 });
 
-// // All URL is allowed to access
-// app.use(cors({
-//   origin: '*' // Just For testing
-// }));
+// All URL is allowed to access
+app.use(cors({
+  origin: '*' // Just For testing
+}));
 
 // app.get('/',function(req:Request,res:Response){
 //     res.end("Hello World");
@@ -114,7 +114,9 @@ app.use(express.static(path.join(__dirname, "public")));
 //   res.end("Hello World");
 // });
 
-app.get("/users", async (req, res) => {
+export const routes = express.Router();
+
+routes.get("/users", async (req, res) => {
   try {
     const data = await connection.promise().query(`SELECT *  from users;`);
     res.status(202).json({
@@ -127,7 +129,7 @@ app.get("/users", async (req, res) => {
   }
 });
 
-app.post("/users", async (req, res) => {
+routes.post("/users", async (req, res) => {
   try {
     const { name, password } = req.body;
     const insertId = await connection.promise().query(
@@ -146,7 +148,7 @@ app.post("/users", async (req, res) => {
   }
 });
 
-app.get("/messages", async (req, res) => {
+routes.get("/messages", async (req, res) => {
   try {
     const data = await connection
       .promise()
@@ -163,7 +165,7 @@ app.get("/messages", async (req, res) => {
   }
 });
 
-app.post("/messages", async (req, res) => {
+routes.post("/messages", async (req, res) => {
   try {
     const { message, user_id } = req.body;
     const insertId = await connection.promise().query(
@@ -182,7 +184,7 @@ app.post("/messages", async (req, res) => {
   }
 });
 
-app.post("/login", async (req, res) => {
+routes.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
     const checkUsers = await connection
@@ -213,7 +215,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/register", async (req, res) => {
+routes.post("/register", async (req, res) => {
   try {
     const { username, password } = req.body;
     const user = await connection
@@ -236,6 +238,8 @@ app.post("/register", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+app.use("/api", routes);
 
 const PORT = 8080;
 

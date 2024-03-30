@@ -1,12 +1,13 @@
 import { io } from 'socket.io-client'
 import axios from 'axios'
+// import { defineConfig } from 'vite'
 
 class SocketioService {
   socket: any
   constructor() {}
 
   setupSocketConnection() {
-    this.socket = io('http://localhost:8080')
+    this.socket = io(`${import.meta.env.VITE_SOCKET_SERVER}`)
     // console.log('Test')
 
     this.socket.emit('my message', 'Hello there from Vue.')
@@ -21,7 +22,7 @@ class SocketioService {
   }
 
   async fetchMessage() {
-    const messages = (await axios(`http://localhost:8080/messages`)).data.users
+    const messages = (await axios(`${import.meta.env.VITE_API_SERVER}/messages`)).data.users
     // console.log('Message: ', messages)
     return messages
   }
@@ -43,7 +44,7 @@ class SocketioService {
   async sendMessage({ message, roomName, name, userID }: { message: any; roomName: any; name: any; userID: any }, cb: any) {
     if (this.socket) {
       this.socket.emit('message', { message, roomName, name, userID }, cb)
-      await axios.post(`http://localhost:8080/messages`, {
+      await axios.post(`${import.meta.env.VITE_API_SERVER}/messages`, {
           message: message,
           user_id: userID
         })

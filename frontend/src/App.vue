@@ -4,6 +4,7 @@ import { useIsLoggedInStore } from './stores/isLoggedIn'
 import ChatRoomView from './views/ChatRoomView.vue'
 import LoginView from './views/LoginView.vue'
 
+console.log("PROCESS: ", import.meta.env.VITE_API_SERVER)
 const store = useIsLoggedInStore()
 </script>
 

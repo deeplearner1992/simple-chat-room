@@ -2,6 +2,7 @@
 
 <script lang="ts">
 import { useIsLoggedInStore } from '../stores/isLoggedIn'
+// import { defineConfig } from 'vite'
 
 export default {
   data: () => {
@@ -14,7 +15,7 @@ export default {
     login(e: any) {
       e.preventDefault()
       const store = useIsLoggedInStore()
-      fetch('http://localhost:8080/login', {
+      fetch(`${import.meta.env.VITE_API_SERVER}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

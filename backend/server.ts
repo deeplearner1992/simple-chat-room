@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 // import {Request,Response} from 'express';
 import path from "path";
@@ -6,14 +9,15 @@ import { Server as SocketIO } from "socket.io";
 import bodyParser from "body-parser";
 import mysql from "mysql2";
 import cors from "cors";
-// import cors from 'cors';
+
+// console.log("process.env.MYSQL_HOST: ", process.env.MYSQL_HOST);
 
 // connecting Database
 const connection = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "password",
-  database: "testdb",
+  host: process.env.MYSQL_HOST,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DB,
 });
 
 console.log(connection);
@@ -22,7 +26,7 @@ const app = express();
 const server = new http.Server(app);
 const io = new SocketIO(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "*",
     methods: ["GET", "POST"],
   },
 });

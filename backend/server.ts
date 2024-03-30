@@ -9,7 +9,7 @@ import mysql from "mysql2";
 
 // connecting Database
 const connection = mysql.createPool({
-  host: "localhost",
+  host: "http://18.136.222.132/",
   user: "root",
   password: "password",
   database: "chatroom",

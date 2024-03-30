@@ -12,7 +12,7 @@ const connection = mysql.createPool({
   host: "localhost",
   user: "root",
   password: "password",
-  database: "testdb",
+  database: "chatroom",
 });
 
 console.log(connection);
@@ -186,7 +186,7 @@ app.post("/login", async (req, res) => {
       );
     // console.log("check" , checkUsers);
     const result = checkUsers[0] as any;
-    console.log("check" , result[0]);
+    // console.log("check" , result[0]);
     if (result.length > 0) {
       res.status(202).json({
         userID: result[0].id,
@@ -195,7 +195,7 @@ app.post("/login", async (req, res) => {
         isLoggedIn: true,
       });
     } else {
-      res.status(400).json({
+      res.status(401).json({
         message: "wrong credential",
         isLoggedIn: false,
       });
@@ -214,8 +214,8 @@ app.post("/register", async (req, res) => {
       .promise()
       .query(/*sql*/ `SELECT * FROM users WHERE name = (?)`, [username]) as any;
     // const result = user[0] as any;
-    console.log(password);
-    console.log(user);
+    // console.log(password);
+    // console.log(user);
     if (user[0].length > 0) {
       res.status(401).json({ message: "username already registered" });
       return;

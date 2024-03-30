@@ -39,7 +39,7 @@ export default {
           objDiv!.scrollTop = objDiv!.scrollHeight
         }
       )
-      console.log(`Messages: ${this.messages}`)
+      // console.log(`Messages: ${this.messages}`)
     },
 
     logout() {
@@ -58,7 +58,7 @@ export default {
     const store = useIsLoggedInStore()
     SocketioService.setupSocketConnection()
     SocketioService.subscribeToMessages((err: any, data: any) => {
-      console.log(data)
+      // console.log(data)
       this.messages.push(data)
     })
     const fetchedMessages = await SocketioService.fetchMessage()

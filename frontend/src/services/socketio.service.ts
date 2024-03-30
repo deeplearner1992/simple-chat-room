@@ -7,7 +7,7 @@ class SocketioService {
 
   setupSocketConnection() {
     this.socket = io('http://localhost:8080')
-    console.log('Test')
+    // console.log('Test')
 
     this.socket.emit('my message', 'Hello there from Vue.')
 
@@ -22,7 +22,7 @@ class SocketioService {
 
   async fetchMessage() {
     const messages = (await axios(`http://localhost:8080/messages`)).data.users
-    console.log('Message: ', messages)
+    // console.log('Message: ', messages)
     return messages
   }
 

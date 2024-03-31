@@ -15,6 +15,6 @@ This is a website application of a simple chatroom, where the user can register,
 - npm run dev
 
 ## Teckstack used:
-- Frontend: Vue.js, Vite, socket.io.client, dotenv, Pinia, Typescript, Javascript, HTML, CSS
-- Backend: NodeJS, Express, mySQL, socket.io, dotenv, cors, Typescript, Javascript, HTML, CSS
+- Frontend: Vue.js, Vite, socket.io.client, dotenv, Pinia, Typescript, Javascript, HTML, CSS, Git, axios
+- Backend: NodeJS, Express, mySQL, socket.io, dotenv, cors, Typescript, Javascript, HTML, CSS, Git,
 - Deployment: AWS, EC2, Ubuntu, Elastic IP, SSH, Security Groups

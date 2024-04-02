@@ -1,6 +1,6 @@
 # simple-chat-room
 
-This is a website application of a simple chatroom, where the user can register, login and also chat in a common chatroom.
+This is a website application of a simple chatroom, where the user can register, login, logout and also chat in a common chatroom.
 
 ##  How to run frontend locally
 - cd frontend

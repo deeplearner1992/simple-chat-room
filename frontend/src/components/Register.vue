@@ -50,7 +50,7 @@ function register(e: any) {
     </template>
     <template #body>
       <fwb-input v-model="username" placeholder="enter your user name" label="Username" />
-      <fwb-input v-model="password" placeholder="enter your password" label="Password" />
+      <fwb-input v-model="password" placeholder="enter your password" label="Password" type="password" />
     </template>
     <template #footer>
       <div class="flex justify-between">

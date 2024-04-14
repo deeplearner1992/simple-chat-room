@@ -18,6 +18,10 @@ const messages = ref([] as any)
 const userName = ref('')
 
 function submitMessage() {
+  if (inputMessageText.value == "") {
+    alert("Please enter a message!")
+    return;
+  }
   const store = useIsLoggedInStore()
   const CHAT_ROOM = 'myRandomChatRoomId'
   const message = inputMessageText.value

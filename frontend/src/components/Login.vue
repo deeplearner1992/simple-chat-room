@@ -47,7 +47,7 @@ function register(e: any) {
 <template>
   <fwb-heading tag="h4" class="text-center">Login</fwb-heading>
   <fwb-input v-model="username" label="Username" placeholder="enter your username" size="lg" />
-  <fwb-input v-model="password" label="Password" placeholder="enter your password" size="lg" />
+  <fwb-input v-model="password" label="Password" placeholder="enter your password" size="lg" type="password"/>
   <div class="p-2 flex">
     <div class="flex justify-between w-full">
       <Register />

@@ -10,7 +10,7 @@ const store = useIsLoggedInStore()
 </script>
 
 <template>
-  <fwb-heading tag="h2" class="text-center mb-5" v-if="!store.isLoggedIn">&#128513; WELCOME TO CHAT CHAT &#128540;</fwb-heading>
+  <fwb-heading tag="h2" class="text-center mb-5" v-if="!store.isLoggedIn">🗣️ WELCOME TO CHAT CHAT 💬</fwb-heading>
   <header class="container justify-center center">
     <div>
       <LoginView v-if="!store.isLoggedIn"></LoginView>

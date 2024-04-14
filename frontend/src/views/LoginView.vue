@@ -4,10 +4,6 @@ import Login from '../components/Login.vue'
 
 <template>
   <main>
-    <!-- <Login />
-    <Login2 /> -->
     <Login />
-    <!-- <Register /> -->
-    <!-- <Register2 /> -->
   </main>
 </template>

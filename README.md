@@ -12,6 +12,7 @@ This is a website application of a simple chatroom, where the user can register,
 - cd backend
 - npm install
 - setup a .env file according to .env.example
+- create database and table using mysql.sql
 - npm run dev
 
 ## Teckstack used:
